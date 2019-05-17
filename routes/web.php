@@ -3,7 +3,7 @@
 Route::get('/', function (\Illuminate\Http\Request $request) {
     $user = $request->user();
 
-    dump($user->can('delete post'));
+    dump($user->can('delete users'));
 });
 
 Auth::routes();

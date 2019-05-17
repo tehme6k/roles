@@ -6,13 +6,6 @@ use App\{Role, Permission};
 
 trait HasPermissionsTrait
 {
-    public function hasPermissionTo($permission)
-    {
-        // has permission through role
-
-        return $this->hasPermission($permission);
-    }
-
     public function hasRole(...$roles)
     {
         foreach($roles as $role){
@@ -22,6 +15,20 @@ trait HasPermissionsTrait
         }
 
         return false;
+    }
+
+    public function hasPermissionTo($permission)
+    {
+        return $this->hasPermissionThroughRole($permission) || $this->hasPermission($permission);
+    }
+
+    protected function hasPermissionThroughRole($permission)
+    {
+        foreach($permission->roles as $role) {
+            if($this->roles->contains($role)){
+                return true;
+            }
+        }
     }
 
     protected function hasPermission($permission)
